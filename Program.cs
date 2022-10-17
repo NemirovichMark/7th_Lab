@@ -19,9 +19,9 @@ namespace _7th_Lab
              */
             /* Inheritance
              * One class can be inherited from another one and get all fields, properties and methods of base class.
-             * All protected and public methods can be modifyed with override (only for virtual base methods - that can be changed).
-             * 
-             * 
+             * Any protected or public method can be modifyed with override operator (only for virtual base methods - that can be changed).
+             * Any protected or public method can be rewritten with new operator. 
+             * It allows to change behaviour of differnt children with common properties. 
              * 
              */
             
@@ -29,9 +29,7 @@ namespace _7th_Lab
              * Child class can be upcasted to base class for ENCAPSULATING the fields, properties and methods of this class. 
              * For users will be shown only that fields and others.
              * that avaliable from base class but with modification of child class! 
-             * And references to child fields, properties and methods from that (base) methods) too. 
-             * 
-             * 
+             * And references to child fields, properties and methods from that (base) methods) too.
              * 
              */
         }

@@ -11,14 +11,25 @@ namespace _7th_Lab
         static void Main(string[] args)
         {
             /* Difference from the structures
-             * When we using the structures, we operate with links to each memory allocation. When we send a structure as a method parameter we create a copy and method works with a copy (except ref modification)
+             * When we using the structures, we operate with links to each memory allocation. 
+             * When we send a structure as a method parameter we create a copy and method works with a copy (except ref modification).
              * If we send a class, we send a link to it's allocation. Sending the element of the class as like a always ref - sending. 
-             * So, structure - the value (with under-values). Class - the reference to the aggregate of values (have additional parameters in the memory)
+             * So, structure - the value (with under-values). Class - the reference to the aggregate of values (have additional parameters in the memory).
              * 
              */
             /* Inheritance
              * One class can be inherited from another one and get all fields, properties and methods of base class.
+             * All protected and public methods can be modifyed with override (only for virtual base methods - that can be changed).
              * 
+             * 
+             * 
+             */
+            
+            /* Upcast
+             * Child class can be upcasted to base class for ENCAPSULATING the fields, properties and methods of this class. 
+             * For users will be shown only that fields and others.
+             * that avaliable from base class but with modification of child class! 
+             * And references to child fields, properties and methods from that (base) methods) too. 
              * 
              * 
              * 

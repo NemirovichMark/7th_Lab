@@ -3,60 +3,60 @@
 namespace Task
 {
     class Program
-    {
-        
-        
-
-        static Group readGroup(int countGrades, out bool Fl)
-        {
-            Fl = false;
-            string erorr = "ошибка 3_1";
-            Console.WriteLine($"введите название группы");
-            string Name;
-            if (!InputOutput.Read(out Name))
-            {
-                return new Group(new List<Student>());
-            }
-            List<Student> students = new List<Student>();
-            while (true)
-            {
-                string name;
-                Console.WriteLine($"введите имя");
-                if (!InputOutput.Read(out name))
-                {
-                    break;
-                }
-                Console.WriteLine($"введите {countGrades} оценок");
-                if (!InputOutput.CheckSplitRead(out List<double> l, out bool check, erorr, countGrades))
-                {
-                    if (check) break;
-                    Fl = true;
-                    return new Group(new List<Student>());
-                }
-
-                Student student = new Student(l, name);
-                students.Add(student);
-            }
-            Group group = new Group(students, Name);
-            return group;
-        }
+    { 
         static void exercise_3_1()
         {
             string error = "ошибка 3_1";
             int countGrades = 5;
-            int countGroups = 3;
-            Group[] groups = new Group[countGroups];
-            var Q = new PriorityQueue<Group, double>(new Comparer(-1));
-            for (int i = 0; i < countGroups; ++i)
-            {
-                groups[i] = readGroup(countGrades, out bool Fl);
-                if (Fl)
-                {
-                    return;
-                }
-                Q.Enqueue(groups[i], groups[i].midGrade);
-            }
+            //int countGroups = 3;
 
+            List<Group> groups = new();
+            Dictionary<string, int> map = new();
+            var Q = new PriorityQueue<Group, double>(new Comparer(-1));
+            do
+            {
+                Console.WriteLine($"введите имя студента");
+                string name = Console.ReadLine();
+                if (name == InputOutput.EndString)
+                {
+                    break;
+                }
+
+                Console.WriteLine($"имя группы");
+                string nameGroup = Console.ReadLine();
+                if (nameGroup == InputOutput.EndString)
+                {
+                    break;
+                }
+
+                Console.WriteLine($"{countGrades} оценок");
+                var l = new List<double>();
+                if(!InputOutput.CheckSplitRead(out l,out bool check,error, countGrades))
+                {
+                    if (check) 
+                    { 
+                        break; 
+                    }
+                }
+                Student student =new Student(l, name);
+                if(map.ContainsKey(nameGroup))
+                {
+                    int nom = map[nameGroup];
+                    groups[nom].students.Add(student);
+                }
+                else
+                {
+                    Group group = new Group(nameGroup);
+                    group.students.Add(student);
+                    groups.Add(group);
+                    map[nameGroup] = groups.Count() - 1;
+                }
+
+            } while (true);
+            foreach (var group in groups)
+            {
+                Q.Enqueue(group, group.MidGrade());
+            }
             List<string> S = new List<string>();
             S.Add("название групы /средний бал груп");
             while (Q.TryDequeue(out Group group, out double q))
@@ -197,7 +197,7 @@ namespace Task
 
     static class InputOutput
     {
-        const string EndString = "";
+        public const string EndString = "";
         static public void Write(int ans)
         {
             Console.WriteLine("ans : " + ans.ToString());
@@ -417,15 +417,16 @@ namespace Task
         }
     }
     class Group
-    {
-        public double midGrade = 0;
+    { 
         public string name = "неизвестно";
         public List<Student> students = new List<Student>();
-        public Group(List<Student> st, string name = "неизвестно")
+        public Group(string name = "неизвестно")
         {
-            this.students = st;
             this.name = name;
-            double sum = 0;
+        }
+        public double MidGrade()
+        {
+            double sum = 0,ans =0;
             foreach (Student student in students)
             {
                 sum += student.midGrade;
@@ -433,9 +434,11 @@ namespace Task
 
             if (students.Count != 0)
             {
-                this.midGrade = sum / students.Count;
+                ans = sum / students.Count;
             }
+            return ans;
         }
+
     }
     
     

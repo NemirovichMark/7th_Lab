@@ -58,7 +58,7 @@ namespace _7th_Lab
             Console.WriteLine("How are you doing?");
         }
     }
-    class Program
+    class Theory
     {
         static void Main(string[] args)
         {

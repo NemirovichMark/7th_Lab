@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Microsoft.VisualBasic;
 
 namespace Lab_7
@@ -58,7 +60,7 @@ namespace Lab_7
             {
                 int n;
                 List<string> Teams = new List<string>();
-                Football[] C = new Football[12];
+                List<Football> C = new List<Football>();
                 for (int i = 0; i < 2; i++)
                 {
                     Console.WriteLine($"{i + 1} group:");
@@ -68,10 +70,11 @@ namespace Lab_7
                         if (int.TryParse(Console.ReadLine(), out n))
                         {
                             Console.WriteLine("Enter the name of team:");
-                            C[j] = new Football(Console.ReadLine(), n);
+                            C.Add(new Football(Console.ReadLine(), n));
                         }
                     }
-                    C.OrderBy(x => x.points);
+                    C.Sort((x1, x2) => x1.points.CompareTo(x2.points));
+                    C.Reverse();
                     for (int j = 0; j < 6; j++)
                     {
                         Teams.Add(C[j].name);

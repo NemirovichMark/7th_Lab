@@ -1,108 +1,148 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Markup;
+using Microsoft.VisualBasic;
 
-namespace _7th_Lab
+namespace Lab_7
 {
-    class Grandfather
+    class Football
     {
-        public string Name;
-        protected int _whealth;
-        private bool _isGreedy = true;
-        public bool IsGreedy => _isGreedy;
-        public Grandfather(string name, int money)
+        public string name;
+        public int points;
+
+        public Football(string name, int points)
         {
-            Name = name;
-            _whealth = money;
-            Random rand = new Random();
-            _isGreedy = rand.NextDouble() / 2 > 0.5;
-        }
-    }
-    class Father : Grandfather
-    {
-        public string SecondName;
-        public Father(string name, int money, int inheritance) : base(name, inheritance)
-        {
-            Name = name;
-            SecondName = $"{name}ov";
-            _whealth = money + _whealth;
-            Say();
-        }
-        protected virtual void Say()
-        {
-            Console.WriteLine($"Good afternoon! I'm {Name}");
+            this.name = name;
+            this.points = points;
         }
     }
 
-    class Son : Father
+    class SecondFootball
     {
-        public Son(string name, int money = 0, int inheritance = 0) : base(name, money, inheritance)
+        public int Goals1;
+        public int Goals2;
+        public int Points1;
+        public int Points2;
+        public int Difference1;
+        public int Difference2;
+        private static int win = 3;
+        private static int lose = 0;
+        private static int tie = 1;
+        public SecondFootball(int Goals1, int Goals2)
         {
-            
-        }
-        protected sealed override void Say() // sealed prevent it from overriding in the future by heirs.
-        {
-            Console.WriteLine("Hello, man.");
+            this.Goals1 = Goals1;
+            this.Goals2 = Goals2;
+            if (Goals1 > Goals2)
+            {
+                Points1 = win;
+                Points2 = lose;
+            }
+            else if (Goals1 < Goals2)
+            {
+                Points1 = lose;
+                Points2 = win;
+            }
+            else
+            {
+                Points1 = tie;
+                Points2 = tie;
+            }
+            Difference1 = Goals1 - Goals2;
+            Difference2 = Goals2 - Goals1;
         }
     }
-    class Daughter : Father
-    {
-        public Daughter(string name, int money = 0, int inheritance = 0) : base(name, money, inheritance)
-        {
-            SecondName = $"{name}ova";
-        }
-        protected override void Say()
-        {
-            base.Say();
-            Console.WriteLine("How are you doing?");
-        }
-    }
-    class Theory
+    
+    
+    class Program
     {
         static void Main(string[] args)
         {
-            /* Difference from the structures
-             * When we using the structures, we operate with links to each memory allocation. 
-             * When we send a structure as a method parameter we create a copy and method works with a copy (except ref modification).
-             * If we send a class, we send a link to it's allocation. Sending the element of the class as like a always ref - sending. 
-             * So, structure - the value (with under-values). Class - the reference to the aggregate of values (have additional parameters in the memory).
-             * 
-             */
-            /* Inheritance
-             * One class can be inherited from another one and get all fields, properties and methods of base class.
-             * Any protected or public method can be modified with override operator (only for virtual base methods - that can be changed).
-             * Any protected or public method can be rewritten with new operator. 
-             * It allows to change behavior of different children with common properties. 
-             * 
-             */
+            static void Task2_3lvl()
+            {
+                int n;
+                List<string> Teams = new List<string>();
+                Football[] C = new Football[12];
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.WriteLine($"{i + 1} group:");
+                    for (int j = 0; j < 12; j++)
+                    {
+                        Console.WriteLine("Enter the number of points:");
+                        if (int.TryParse(Console.ReadLine(), out n))
+                        {
+                            Console.WriteLine("Enter the name of team:");
+                            C[j] = new Football(Console.ReadLine(), n);
+                        }
+                    }
+                    C.OrderBy(x => x.points);
+                    for (int j = 0; j < 6; j++)
+                    {
+                        Teams.Add(C[j].name);
+                    }
+                }
 
-            /* Up-cast
-             * Child class can be up-casted to base class for ENCAPSULATING the fields, properties and methods of this class. 
-             * For users will be shown only that fields and others.
-             * that available from base class but with modification of child class! 
-             * And references to child fields, properties and methods from that (base) methods) too.
-             * 
-             */
+                Console.WriteLine("12 best teams:");
+                Console.WriteLine(String.Join("\n", Teams));
+            }
 
-            /* Is & As
-             * You can check is the object can be used as a particular class or not.
-             * And you can convert it. If success - you will get a class you expected. In another case - null.
-             */
-
-            Grandfather Peter = new Grandfather("Petr", 10000);
-            Console.WriteLine();
-            Father Pan = new Father("Pan", 12345, Peter.IsGreedy? 0 : 10000);
-            // Father Dan = new Grandfather("Denis", 1234); // cannot, because here we try to create a here with basic parameters (without need fields)
-            Console.WriteLine();
-            Grandfather Dan = new Father("Denis", 1000, 1234); // we create a father object, but some of the parameters are hidden. But!!! The constructor from Father class, he said Denis!
-            Console.WriteLine(); 
-            Son Jim = new Son("Jim"); // if something identified in the parameter, we can skip it here. Here we override the method and he hide his name.
-            Console.WriteLine(); 
-            Daughter Marry = new Daughter("Marry"); // use firstly method from base class and next - own new features (you can swap it)
-
-
-            // Try to find where is up-cast and how encapsulation here presented.
+            static void Task5_3lvl()
+            {
+                Dictionary<string, Tuple<int, int>> Table = new Dictionary<string, Tuple<int, int>>();
+                List<Tuple<string, int, int>> FinalTable = new List<Tuple<string, int, int>>();
+                do
+                {
+                    Console.WriteLine("Enter -1 to stop");
+                    Console.WriteLine("Enter the match like this: Team1 3-2 Team2");
+                    string s = Console.ReadLine();
+                    if (s == "-1") break;
+                    string[] array = s.Split("-");
+                    string[] array1 = new string[2];
+                    List<int> goals = new List<int>();
+                    List<string> names = new List<string>();
+                    int Goals;
+                    int k = 1;
+                    int Points1 = 0;
+                    int Points2 = 0;
+                    int Difference1 = 0;
+                    int Difference2 = 0;
+                    foreach (var x in array)
+                    {
+                        array1 = x.Split(" ");
+                        if (k == 1)
+                        {
+                            names.Add(array1[0]);
+                            if (!Table.ContainsKey(array1[0])) Table.Add(array1[0], Tuple.Create(0, 0));
+                            if (int.TryParse(array1[1], out Goals)) goals.Add(Goals);
+                            k = 0;
+                        }
+                        else
+                        {
+                            names.Add(array1[1]);
+                            if (!Table.ContainsKey(array1[1])) Table.Add(array1[1], Tuple.Create(0, 0));
+                            if (int.TryParse(array1[0], out Goals)) goals.Add(Goals);
+                            k = 1;
+                        }
+                    }
+                    Console.WriteLine(String.Join(" ", goals));
+                    SecondFootball C = new SecondFootball(goals[0], goals[1]);
+                    Points1 = Table[names[0]].Item1 + C.Points1;
+                    Difference1 = Table[names[0]].Item2 + C.Difference1;
+                    Table[names[0]] = Tuple.Create(Points1, Difference1);
+                    Points2 = Table[names[1]].Item1 + C.Points2;
+                    Difference2 = Table[names[1]].Item2 + C.Difference2;
+                    Table[names[1]] = Tuple.Create(Points2, Difference2);
+                } while (true);
+                foreach (var x in Table)
+                {
+                    FinalTable.Add(Tuple.Create(x.Key, x.Value.Item1, x.Value.Item2));
+                }
+                FinalTable.Sort((x1, x2) => x2.Item2.CompareTo(x1.Item2));
+                FinalTable.Sort((x1, x2) => x2.Item3.CompareTo(x1.Item3));
+                Console.WriteLine("Final table:");
+                foreach (var x in FinalTable) 
+                {
+                    Console.WriteLine($"{x.Item1} team - {x.Item2} points, {x.Item3} difference");
+                }
+            }
+            Task2_3lvl();
+            Task5_3lvl();
         }
     }
 }

@@ -69,7 +69,7 @@ class HelloWorld
             this.KollvoStudents = KollvoStudents;
             this.Students = students;
             double sum = 0;
-            for (int i = 0; i < KollvoStudents; i++)
+            for (int i =0; i < KollvoStudents; i++)
             {
                 sum = sum + students[i].sredmark;
             }

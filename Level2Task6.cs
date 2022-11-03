@@ -26,7 +26,7 @@ class HelloWorld
             this.rez1 = rez11;
             this.rez2 = rez22;
             double obshrez1 = 0;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <5; i++)
             {
                 obshrez1 = obshrez1 + rez11[i];
                 obshrez1 = obshrez1 + rez22[i];

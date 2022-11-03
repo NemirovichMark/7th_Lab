@@ -32,7 +32,7 @@ class HelloWorld
                 if (A[i - 1].Marks < A[i].Marks)
                 {
                     Student x = A[i];
-                    A[i] = A[i - 1];
+                    A[i] =A[i - 1];
                     A[i - 1] = x;
                 }
             }

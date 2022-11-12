@@ -1,0 +1,233 @@
+using System;
+
+namespace Lab7
+{
+    class StudentGroup
+    {
+        public string groupname;
+        public double sred;
+        public StudentGroup(double[] grades, string groupname, int n)
+        {
+            this.groupname = groupname;
+            double sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                sum += grades[i];
+            }
+            sred = (sum / (n * 5.0));
+
+        }
+        public void Show()
+        {
+            Console.WriteLine($"Номер группы: {groupname} || Средний бал: {sred}");
+        }
+
+    }
+    class Group
+    {
+        public string name;
+        public double mark;
+        public Group(string name, double  mark)
+        {
+            this.name = name;
+            this.mark = mark;
+        }
+        public void Show()
+        {
+            Console.WriteLine($"Имя: {name} || Оценка: {mark}");
+        }
+    }
+
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+
+            #region Task1L3
+            static void L3N1()
+            {
+                int[] nik = new int[3];
+                int n;
+                int schet = 0;
+
+                StudentGroup[] p = new StudentGroup[3];
+                #region Vvod1
+                void Vvod(int b)
+                {
+                    Console.WriteLine("Введите кол-во студентов в группах");
+                    bool normul = int.TryParse(Console.ReadLine(), out n);
+                    if (!normul)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        return;
+                    }
+                    Console.WriteLine("Введите имя группы");
+                    string name = Console.ReadLine();
+                    double[] sumik = new double[n];
+                    for (int i = 0; i < n; i++)
+                    {
+                        int sum = 0;
+                        int[] ozenki = new int[5];
+                        int count = 0;
+                        for (int j = 0; j < 5; j++)
+                        {
+                            Console.WriteLine($"Введите балл за экзамен {count + 1}");
+                            count += 1;
+                            bool normulik = int.TryParse(Console.ReadLine(), out ozenki[j]);
+                            if (!normulik)
+                            {
+                                Console.WriteLine("Вы ввели что-то не то");
+                                ozenki[j] = 2;
+                            }
+                        }
+                        for (int j = 0; j < 5; j++)
+                        {
+                            sum += ozenki[j];
+                        }
+                        sumik[i] = sum;
+                    }
+                    p[b] = new StudentGroup(sumik, name, n);
+                }
+                #endregion
+                Vvod(0);
+                Vvod(1);
+                Vvod(2);
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (p[j].sred < p[j + 1].sred)
+                        {
+                            (p[j], p[j + 1]) = (p[j + 1], p[j]);
+                        }
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    p[i].Show();
+                }
+
+
+
+            }
+            #endregion
+
+            #region Task4L3
+
+            static void L3N4()
+            {
+                #region Vvod1
+                int n;
+                Console.WriteLine("Введите кол-во спортсменов");
+                bool normul = int.TryParse(Console.ReadLine(), out n);
+                if (!normul)
+                {
+                    Console.WriteLine("Вы ввели что-то не то");
+                    return;
+                }
+                Group[] sport = new Group[n];
+                for (int i = 0; i < n; i++)
+                {
+                    
+                    Console.WriteLine("Введите фамилию");
+                    string name = Console.ReadLine();
+                    Console.WriteLine($"Введите балл за прыжок");
+                    double mark;
+                    bool norm = double.TryParse(Console.ReadLine(), out mark);
+                    if (!norm)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        mark = 2;
+                    }
+                    sport[i] = new Group(name, mark);
+
+                }
+                #endregion
+                int[] V1 = new int[n];
+                for (int i = 0; i < n; i++)
+                {
+                    V1[i] = i;
+                }
+                #region Vvod2
+                int m;
+                Console.WriteLine("Введите кол-во спортсменов");
+                bool normulik = int.TryParse(Console.ReadLine(), out m);
+                if (!normulik)
+                {
+                    Console.WriteLine("Вы ввели что-то не то");
+                    return;
+                }
+
+                Group[] sportik = new Group[m];
+                for (int i = 0; i < m; i++)
+                {
+
+                    Console.WriteLine("Введите фамилию");
+                    string name = Console.ReadLine();
+                    Console.WriteLine($"Введите балл за прыжок");
+                    double mark;
+                    bool norm = double.TryParse(Console.ReadLine(), out mark);
+                    if (!norm)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        mark = 2;
+                    }
+                    sportik[i] = new Group(name, mark);
+
+                }
+
+                #endregion
+
+
+
+                int[] V2 = new int[m];
+                for (int i = 0; i < m; i++)
+                {
+                    V2[i] = i;
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n - 1; j++)
+                    {
+                        if (sport[j].mark < sport[j + 1].mark)
+                        {
+                            (sport[j], sport[j + 1]) = (sport[j + 1], sport[j]);
+                        }
+                    }
+                }
+                
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = 0; j < m - 1; j++)
+                    {
+                        if (sportik[j].mark < sportik[j + 1].mark)
+                        {
+                            (sportik[j], sportik[j + 1]) = (sportik[j + 1], sportik[j]);
+                        }
+                    }
+                }
+                
+                Console.WriteLine();
+                for (int i = 0; i < n; i++)
+                {
+                    sport[i].Show();
+                }
+                
+                Console.WriteLine();
+                for (int i = 0; i < m; i++)
+                {
+                    sportik[i].Show();
+                }
+                Console.WriteLine();
+                
+            }
+            #endregion
+
+
+            //L3N1();
+            L3N4();
+        }
+    }
+}

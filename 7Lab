@@ -6,7 +6,7 @@ namespace Lab7
     {
         public string groupname;
         public double sred;
-        public double SR(double [] grades, int n)
+        public double SR(double[] grades, int n)
         {
             double sum = 0;
             for (int i = 0; i < n; i++)
@@ -26,7 +26,7 @@ namespace Lab7
         {
             this.groupname = groupname;
             sred = SR(grades, n);
-            this.groupLeader = namik; 
+            this.groupLeader = namik;
         }
 
         public void Show()
@@ -94,7 +94,7 @@ namespace Lab7
 
         public void Show()
         {
-        
+
             Console.WriteLine($"Имя: {name} || Средний бал: {sred} || Стипендия: {money}");
         }
     }
@@ -169,7 +169,7 @@ namespace Lab7
                 for (int i = 0; i < 3; i++)
                 {
                     p[i].Show();
-                    
+
                 }
 
 
@@ -193,7 +193,7 @@ namespace Lab7
                 Group_chat[] sport = new Group_chat[n];
                 for (int i = 0; i < n; i++)
                 {
-                    
+
                     Console.WriteLine("Введите фамилию");
                     string name = Console.ReadLine();
                     Console.WriteLine("Введите чат любимый");
@@ -262,43 +262,75 @@ namespace Lab7
                 SORT(sport, n);
                 SORT(sportik, m);
 
-                /*
-                for (int i = 0; i < n; i++)
-                {
-                    for (int j = 0; j < n - 1; j++)
-                    {
-                        if (sport[j].mark < sport[j + 1].mark)
-                        {
-                            (sport[j], sport[j + 1]) = (sport[j + 1], sport[j]);
-                        }
-                    }
-                }
-                
-                for (int i = 0; i < m; i++)
-                {
-                    for (int j = 0; j < m - 1; j++)
-                    {
-                        if (sportik[j].mark < sportik[j + 1].mark)
-                        {
-                            (sportik[j], sportik[j + 1]) = (sportik[j + 1], sportik[j]);
-                        }
-                    }
-                }
-                */
-
                 Console.WriteLine();
                 for (int i = 0; i < n; i++)
                 {
                     sport[i].Show();
                 }
-                
+
                 Console.WriteLine();
                 for (int i = 0; i < m; i++)
                 {
                     sportik[i].Show();
                 }
                 Console.WriteLine();
+                Group_chat[] end = new Group_chat[m * n];
+
+
+
+                void ALgBee(Group_chat[] one, Group_chat[] two)
+                {
+                    int count1 = 0;
+                    int count2 = 0;
+                    int op = 0;
+                    while ((count1 < n) || (count2 < m))
+                    {
+
+                        if (count1 == n)
+                        {
+                            end[op] = two[count2];
+                            count2 += 1;
+                            op += 1;
+                            continue;
+                        }
+                        if (count2 == m)
+                        {
+                            end[op] = one[count1];
+                            count1 += 1;
+                            op += 1;
+                            continue;
+                        }
+                        if (one[count1].mark >= two[count2].mark)
+                        {
+                            
+                            end[op] = one[count1];
+                            count1 += 1;
+                            op += 1;
+                            
+                        }
+                        else
+                        {
+                            end[op] = two[count2];
+                            count2 += 1;
+                            op += 1;
+                        }
+                        
+                    }
+
+                }
+
                 
+                    
+             
+
+                ALgBee(sport, sportik);
+                Console.WriteLine();
+                for (int i = 0; i < n+ m; i++)
+                {
+                    end[i].Show();
+                }
+                Console.WriteLine();
+
             }
             #endregion
 
@@ -357,8 +389,8 @@ namespace Lab7
                         schet += 1;
                     }
                     stud[i] = new Student_money(name, ozenki);
-                    
-                    
+
+
                     //stud[i].Show();
                 }
                 if (schet == 0)
@@ -377,7 +409,7 @@ namespace Lab7
             #endregion
             //L2N1();
             //L3N1();
-            //L3N4();
+            L3N4();
         }
     }
 }

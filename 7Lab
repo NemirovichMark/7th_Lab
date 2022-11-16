@@ -1,0 +1,415 @@
+using System;
+
+namespace Lab7
+{
+    class StudentGroup
+    {
+        public string groupname;
+        public double sred;
+        public double SR(double[] grades, int n)
+        {
+            double sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                sum += grades[i];
+            }
+            sred = (sum / (n * 5.0));
+            return sred;
+        }
+
+    }
+    class StudentGroup_with_psp : StudentGroup
+    {
+        public string groupLeader;
+
+        public StudentGroup_with_psp(double[] grades, string groupname, int n, string namik)
+        {
+            this.groupname = groupname;
+            sred = SR(grades, n);
+            this.groupLeader = namik;
+        }
+
+        public void Show()
+        {
+            Console.WriteLine($"Номер группы: {groupname} || Средний бал: {sred} Лучший: {groupLeader}");
+        }
+
+    }
+
+    class Group
+    {
+        public string name;
+        public double mark;
+    }
+    class Group_chat : Group
+    {
+        public string chatnum;
+        public Group_chat(string name, double mark, string chatnum)
+        {
+            this.name = name;
+            this.mark = mark;
+            this.chatnum = chatnum;
+        }
+
+        public void Show()
+        {
+            Console.WriteLine($"Имя: {name} || Оценка: {mark} || Чат: {chatnum}");
+        }
+    }
+
+    class Student
+    {
+        public string name;
+        public int[] marks;
+        public double sred;
+        public double SRED()
+        {
+            double sum = 0;
+            foreach (int item in marks)
+            {
+                sum += item;
+            }
+            double sred = sum / 4.0;
+            return sred;
+        }
+        public double MONEY(double sred)
+        {
+            double monky;
+            monky = sred * 10000;
+            return monky;
+        }
+
+
+    }
+    class Student_money : Student
+    {
+        public double money;
+        public Student_money(string name, int[] marks)
+        {
+            this.name = name;
+            this.marks = marks;
+            sred = SRED();
+            this.money = MONEY(sred);
+        }
+
+        public void Show()
+        {
+
+            Console.WriteLine($"Имя: {name} || Средний бал: {sred} || Стипендия: {money}");
+        }
+    }
+
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+
+            #region Task1L3
+            static void L3N1()
+            {
+                int[] nik = new int[3];
+                int n;
+                int schet = 0;
+
+                StudentGroup_with_psp[] p = new StudentGroup_with_psp[3];
+                #region Vvod1
+                void Vvod(int b)
+                {
+                    Console.WriteLine("Введите кол-во студентов в группах");
+                    bool normul = int.TryParse(Console.ReadLine(), out n);
+                    if (!normul)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        return;
+                    }
+                    Console.WriteLine("Введите имя группы");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Введите имя лучшего");
+                    string namik = Console.ReadLine();
+                    double[] sumik = new double[n];
+                    for (int i = 0; i < n; i++)
+                    {
+                        int sum = 0;
+                        int[] ozenki = new int[5];
+                        int count = 0;
+                        for (int j = 0; j < 5; j++)
+                        {
+                            Console.WriteLine($"Введите балл за экзамен {count + 1}");
+                            count += 1;
+                            bool normulik = int.TryParse(Console.ReadLine(), out ozenki[j]);
+                            if (!normulik)
+                            {
+                                Console.WriteLine("Вы ввели что-то не то");
+                                ozenki[j] = 2;
+                            }
+                        }
+                        for (int j = 0; j < 5; j++)
+                        {
+                            sum += ozenki[j];
+                        }
+                        sumik[i] = sum;
+                    }
+                    p[b] = new StudentGroup_with_psp(sumik, name, n, namik);
+                }
+                #endregion
+                Vvod(0);
+                Vvod(1);
+                Vvod(2);
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (p[j].sred < p[j + 1].sred)
+                        {
+                            (p[j], p[j + 1]) = (p[j + 1], p[j]);
+                        }
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    p[i].Show();
+
+                }
+
+
+
+            }
+            #endregion
+
+            #region Task4L3
+
+            static void L3N4()
+            {
+                #region Vvod1
+                int n;
+                Console.WriteLine("Введите кол-во спортсменов");
+                bool normul = int.TryParse(Console.ReadLine(), out n);
+                if (!normul)
+                {
+                    Console.WriteLine("Вы ввели что-то не то");
+                    return;
+                }
+                Group_chat[] sport = new Group_chat[n];
+                for (int i = 0; i < n; i++)
+                {
+
+                    Console.WriteLine("Введите фамилию");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Введите чат любимый");
+                    string chatik = Console.ReadLine();
+                    Console.WriteLine($"Введите балл за прыжок");
+                    double mark;
+                    bool norm = double.TryParse(Console.ReadLine(), out mark);
+                    if (!norm)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        mark = 2;
+                    }
+                    sport[i] = new Group_chat(name, mark, chatik);
+
+                }
+                #endregion
+                int[] V1 = new int[n];
+                for (int i = 0; i < n; i++)
+                {
+                    V1[i] = i;
+                }
+                #region Vvod2
+                int m;
+                Console.WriteLine("Введите кол-во спортсменов");
+                bool normulik = int.TryParse(Console.ReadLine(), out m);
+                if (!normulik)
+                {
+                    Console.WriteLine("Вы ввели что-то не то");
+                    return;
+                }
+
+                Group_chat[] sportik = new Group_chat[m];
+                for (int i = 0; i < m; i++)
+                {
+
+                    Console.WriteLine("Введите фамилию");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Введите чат любимый");
+                    string chatok = Console.ReadLine();
+                    Console.WriteLine($"Введите балл за прыжок");
+                    double mark;
+                    bool norm = double.TryParse(Console.ReadLine(), out mark);
+                    if (!norm)
+                    {
+                        Console.WriteLine("Вы ввели что-то не то");
+                        mark = 2;
+                    }
+                    sportik[i] = new Group_chat(name, mark, chatok);
+
+                }
+
+                #endregion
+                static void SORT(Group_chat[] sportf, int k)
+                {
+                    for (int i = 0; i < k; i++)
+                    {
+                        for (int j = 0; j < k - 1; j++)
+                        {
+                            if (sportf[j].mark < sportf[j + 1].mark)
+                            {
+                                (sportf[j], sportf[j + 1]) = (sportf[j + 1], sportf[j]);
+                            }
+                        }
+                    }
+                }
+                SORT(sport, n);
+                SORT(sportik, m);
+
+                Console.WriteLine();
+                for (int i = 0; i < n; i++)
+                {
+                    sport[i].Show();
+                }
+
+                Console.WriteLine();
+                for (int i = 0; i < m; i++)
+                {
+                    sportik[i].Show();
+                }
+                Console.WriteLine();
+                Group_chat[] end = new Group_chat[m * n];
+
+
+
+                void ALgBee(Group_chat[] one, Group_chat[] two)
+                {
+                    int count1 = 0;
+                    int count2 = 0;
+                    int op = 0;
+                    while ((count1 < n) || (count2 < m))
+                    {
+
+                        if (count1 == n)
+                        {
+                            end[op] = two[count2];
+                            count2 += 1;
+                            op += 1;
+                            continue;
+                        }
+                        if (count2 == m)
+                        {
+                            end[op] = one[count1];
+                            count1 += 1;
+                            op += 1;
+                            continue;
+                        }
+                        if (one[count1].mark >= two[count2].mark)
+                        {
+                            
+                            end[op] = one[count1];
+                            count1 += 1;
+                            op += 1;
+                            
+                        }
+                        else
+                        {
+                            end[op] = two[count2];
+                            count2 += 1;
+                            op += 1;
+                        }
+                        
+                    }
+
+                }
+
+                
+                    
+             
+
+                ALgBee(sport, sportik);
+                Console.WriteLine();
+                for (int i = 0; i < n+ m; i++)
+                {
+                    end[i].Show();
+                }
+                Console.WriteLine();
+
+            }
+            #endregion
+
+            #region Task1L2
+
+            static void L2N1()
+            {
+                void SORT(int schet, Student_money[] stud, int[] a)
+                {
+                    for (int i = 0; i < schet - 1; i++)
+                    {
+                        for (int j = 0; j < schet - 1; j++)
+                        {
+                            if (stud[a[j]].sred < stud[a[j + 1]].sred)
+                            {
+                                (stud[a[j]], stud[a[j + 1]]) = (stud[a[j + 1]], stud[a[j]]);
+                            }
+                        }
+                    }
+                }
+
+                int n;
+                Console.WriteLine("Введите кол-во студентов");
+                bool normul = int.TryParse(Console.ReadLine(), out n);
+                if (!normul)
+                {
+                    Console.WriteLine("Вы ввели что-то не то");
+                    return;
+                }
+                Student_money[] stud = new Student_money[n];
+                int[] a = new int[n];
+                int schet = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    int[] ozenki = new int[4];
+                    int count = 0;
+                    string name;
+                    Console.WriteLine("Введите имя студента");
+                    name = Console.ReadLine();
+                    int sum = 0;
+                    for (int j = 0; j < 4; j++)
+                    {
+                        Console.WriteLine($"Введите балл за экзамен {count + 1}");
+                        count += 1;
+                        bool normulik = int.TryParse(Console.ReadLine(), out ozenki[j]);
+                        if (!normulik)
+                        {
+                            Console.WriteLine("Вы ввели что-то не то");
+                            ozenki[j] = 2;
+                        }
+                        sum += ozenki[j];
+                    }
+                    if (sum / 4.0 > 4)
+                    {
+                        a[schet] = i;
+                        schet += 1;
+                    }
+                    stud[i] = new Student_money(name, ozenki);
+
+
+                    //stud[i].Show();
+                }
+                if (schet == 0)
+                {
+                    Console.WriteLine("Хороших студентов нет");
+                    return;
+                }
+
+                SORT(schet, stud, a);
+
+                for (int i = 0; i < schet; i++)
+                {
+                    stud[a[i]].Show();
+                }
+            }
+            #endregion
+            //L2N1();
+            //L3N1();
+            L3N4();
+        }
+    }
+}
